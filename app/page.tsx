@@ -22,12 +22,40 @@ async function getStandings() {
   try {
     const sql = (await import('@/lib/db')).default
     const rows = await sql`
-      SELECT * FROM standings
+      SELECT position, rider_name, total_points, races_entered
+      FROM standings
       WHERE season = 2026
       ORDER BY position ASC
       LIMIT 10
     `
-    return rows
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return rows.map((r: any) => {
+      const nameParts = (r.rider_name as string).split(' ').filter((p: string) => p.trim())
+      let voornaam: string | null = null
+      let tussenaam: string | null = null
+      let achternaam: string | null = null
+
+      if (nameParts.length === 1) {
+        achternaam = nameParts[0]
+      } else if (nameParts.length === 2) {
+        voornaam = nameParts[0]
+        achternaam = nameParts[1]
+      } else if (nameParts.length >= 3) {
+        voornaam = nameParts[0]
+        tussenaam = nameParts.slice(1, -1).join(' ')
+        achternaam = nameParts[nameParts.length - 1]
+      }
+
+      return {
+        position: r.position as number,
+        voornaam,
+        tussenaam,
+        achternaam,
+        rider_name: r.rider_name as string,
+        total_points: r.total_points as number,
+        races_entered: r.races_entered as number,
+      }
+    })
   } catch {
     return []
   }

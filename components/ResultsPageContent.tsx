@@ -12,16 +12,17 @@ async function getResultsByRace(year: number) {
     const sql = (await import('@/lib/db')).default
     // Query off results.season so we find data even when the races table
     // season column doesn't perfectly match.
+    // Group by race name and date to handle duplicate race records in the races table
     const races = await sql`
       SELECT
-        res.race_id                           AS id,
+        MIN(res.race_id)                      AS id,
         COALESCE(r.name, '')                  AS name,
         COALESCE(r.date::text, '')            AS date,
         COALESCE(r.location, '')              AS location
       FROM results res
       LEFT JOIN races r ON r.id = res.race_id
       WHERE res.season = ${year}
-      GROUP BY res.race_id, r.name, r.date, r.location
+      GROUP BY r.name, r.date, r.location
       ORDER BY MIN(r.date) ASC NULLS LAST
     `
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,10 +30,7 @@ async function getResultsByRace(year: number) {
       races.map(async (race: any) => {
         const results = await sql`
           SELECT
-            position, rugnr,
-            voornaam, tussenaam, achternaam, rider_name,
-            finish_time,
-            kc_punten, sprint1, sprint2, totaal, points
+            position, rider_name
           FROM results
           WHERE race_id = ${race.id} AND season = ${year}
           ORDER BY position ASC
@@ -51,25 +49,44 @@ async function getResultsByRace(year: number) {
             imageUrl,
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          results: results.map((r: any) => ({
-            position:   r.position as number,
-            rugnr:      (r.rugnr   as number  | null) ?? null,
-            voornaam:   (r.voornaam  as string | null) ?? null,
-            tussenaam:  (r.tussenaam as string | null) ?? null,
-            achternaam: (r.achternaam as string | null) ?? null,
-            rider_name: (r.rider_name as string | null) ?? null,
-            finish_time:(r.finish_time as string | null) ?? null,
-            kc_punten:  (r.kc_punten as number | null) ?? null,
-            sprint1:    (r.sprint1   as number | null) ?? null,
-            sprint2:    (r.sprint2   as number | null) ?? null,
-            totaal:     (r.totaal    as number | null) ?? null,
-            points:     (r.points    as number | null) ?? null,
-          })),
+          results: results.map((r: any) => {
+            const nameParts = (r.rider_name as string ?? '').split(' ').filter((p: string) => p.trim())
+            let voornaam: string | null = null
+            let tussenaam: string | null = null
+            let achternaam: string | null = null
+
+            if (nameParts.length === 1) {
+              achternaam = nameParts[0]
+            } else if (nameParts.length === 2) {
+              voornaam = nameParts[0]
+              achternaam = nameParts[1]
+            } else if (nameParts.length >= 3) {
+              voornaam = nameParts[0]
+              tussenaam = nameParts.slice(1, -1).join(' ')
+              achternaam = nameParts[nameParts.length - 1]
+            }
+
+            return {
+              position:    r.position as number,
+              rugnr:       null,
+              voornaam:    voornaam,
+              tussenaam:   tussenaam,
+              achternaam:  achternaam,
+              rider_name:  (r.rider_name as string | null) ?? null,
+              finish_time: null,
+              kc_punten:   null,
+              sprint1:     null,
+              sprint2:     null,
+              totaal:      null,
+              points:      null,
+            }
+          }),
         }
       })
     )
     return racesWithResults
-  } catch {
+  } catch (error) {
+    console.error('Error fetching race results:', error)
     return []
   }
 }
@@ -84,12 +101,34 @@ async function getStandings(year: number) {
       ORDER BY position ASC
     `
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return rows.map((r: any) => ({
-      position: r.position as number,
-      rider_name: r.rider_name as string,
-      total_points: r.total_points as number,
-      races_entered: r.races_entered as number,
-    }))
+    return rows.map((r: any) => {
+      // Parse rider_name into voornaam, tussenaam, achternaam
+      const nameParts = (r.rider_name as string).split(' ').filter((p: string) => p.trim())
+      let voornaam: string | null = null
+      let tussenaam: string | null = null
+      let achternaam: string | null = null
+
+      if (nameParts.length === 1) {
+        achternaam = nameParts[0]
+      } else if (nameParts.length === 2) {
+        voornaam = nameParts[0]
+        achternaam = nameParts[1]
+      } else if (nameParts.length >= 3) {
+        voornaam = nameParts[0]
+        tussenaam = nameParts.slice(1, -1).join(' ')
+        achternaam = nameParts[nameParts.length - 1]
+      }
+
+      return {
+        position: r.position as number,
+        voornaam,
+        tussenaam,
+        achternaam,
+        rider_name: r.rider_name as string,
+        total_points: r.total_points as number,
+        races_entered: r.races_entered as number,
+      }
+    })
   } catch {
     return []
   }
