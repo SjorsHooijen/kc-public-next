@@ -231,10 +231,10 @@ export default async function HomePage() {
                   Algemeen Klassement
                 </h2>
                 <Link
-                  href="/uitslagen-2026"
+                  href="/klassement-2026"
                   className="hidden md:inline-flex items-center gap-1 text-primary font-heading font-bold text-sm uppercase tracking-wide hover:text-primary-dark transition-colors"
                 >
-                  Volledige uitslagen <span aria-hidden="true">&rarr;</span>
+                  Volledige klassement <span aria-hidden="true">&rarr;</span>
                 </Link>
               </div>
 
@@ -243,10 +243,10 @@ export default async function HomePage() {
 
               <div className="mt-6 md:hidden">
                 <Link
-                  href="/uitslagen-2026"
+                  href="/klassement-2026"
                   className="inline-flex items-center gap-1 text-primary font-heading font-bold text-sm uppercase tracking-wide"
                 >
-                  Volledige uitslagen <span aria-hidden="true">&rarr;</span>
+                  Volledige klassement <span aria-hidden="true">&rarr;</span>
                 </Link>
               </div>
             </div>

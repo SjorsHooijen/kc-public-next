@@ -1,5 +1,5 @@
 import SeasonNav from '@/components/SeasonNav'
-import ResultsPageClient from '@/components/ResultsPageClient'
+import ResultsPageOverview from '@/components/ResultsPageOverview'
 import { ALL_RACES } from '@/lib/calendar'
 import IMAGES from '@/config/images'
 
@@ -7,137 +7,58 @@ interface Props {
   year: number
 }
 
-async function getResultsByRace(year: number) {
+async function getRaces(year: number) {
   try {
     const sql = (await import('@/lib/db')).default
-    // Query off results.season so we find data even when the races table
-    // season column doesn't perfectly match.
-    // Group by race name and date to handle duplicate race records in the races table
     const races = await sql`
       SELECT
-        MIN(res.race_id)                      AS id,
+        res.race_id                      AS id,
         COALESCE(r.name, '')                  AS name,
         COALESCE(r.date::text, '')            AS date,
         COALESCE(r.location, '')              AS location
-      FROM results res
+      FROM (
+        SELECT DISTINCT ON (race_id) race_id, season FROM results WHERE season = ${year}
+      ) res
       LEFT JOIN races r ON r.id = res.race_id
-      WHERE res.season = ${year}
-      GROUP BY r.name, r.date, r.location
-      ORDER BY MIN(r.date) ASC NULLS LAST
+      ORDER BY res.race_id, r.date ASC NULLS LAST
     `
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const racesWithResults = await Promise.all(
-      races.map(async (race: any) => {
-        const results = await sql`
-          SELECT
-            position, rider_name
-          FROM results
-          WHERE race_id = ${race.id} AND season = ${year}
-          ORDER BY position ASC
-        `
-        const calendarMatch = ALL_RACES.find(r =>
-          (race.name as string).toLowerCase().includes(r.shortName.toLowerCase())
-        )
-        const imageUrl = calendarMatch?.imageUrl ?? IMAGES.general.actie1
+    return races.map((race: any) => {
+      const calendarMatch = ALL_RACES.find(r =>
+        (race.name as string).toLowerCase().includes(r.shortName.toLowerCase())
+      )
+      const imageUrl = calendarMatch?.imageUrl ?? IMAGES.general.actie1
 
-        return {
-          race: {
-            id: race.id as number,
-            name: race.name as string,
-            date: String(race.date),
-            location: race.location as string,
-            imageUrl,
-          },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          results: results.map((r: any) => {
-            const nameParts = (r.rider_name as string ?? '').split(' ').filter((p: string) => p.trim())
-            let voornaam: string | null = null
-            let tussenaam: string | null = null
-            let achternaam: string | null = null
-
-            if (nameParts.length === 1) {
-              achternaam = nameParts[0]
-            } else if (nameParts.length === 2) {
-              voornaam = nameParts[0]
-              achternaam = nameParts[1]
-            } else if (nameParts.length >= 3) {
-              voornaam = nameParts[0]
-              tussenaam = nameParts.slice(1, -1).join(' ')
-              achternaam = nameParts[nameParts.length - 1]
-            }
-
-            return {
-              position:    r.position as number,
-              rugnr:       null,
-              voornaam:    voornaam,
-              tussenaam:   tussenaam,
-              achternaam:  achternaam,
-              rider_name:  (r.rider_name as string | null) ?? null,
-              finish_time: null,
-              kc_punten:   null,
-              sprint1:     null,
-              sprint2:     null,
-              totaal:      null,
-              points:      null,
-            }
-          }),
-        }
-      })
-    )
-    return racesWithResults
+      return {
+        id: race.id as number,
+        name: race.name as string,
+        date: String(race.date),
+        location: race.location as string,
+        imageUrl,
+      }
+    })
   } catch (error) {
-    console.error('Error fetching race results:', error)
+    console.error('Error fetching races:', error)
     return []
   }
 }
 
-async function getStandings(year: number) {
+async function hasStandings(year: number) {
   try {
     const sql = (await import('@/lib/db')).default
-    const rows = await sql`
-      SELECT position, rider_name, total_points, races_entered
-      FROM standings
-      WHERE season = ${year}
-      ORDER BY position ASC
+    const result = await sql`
+      SELECT COUNT(*) as count FROM standings WHERE season = ${year}
     `
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return rows.map((r: any) => {
-      // Parse rider_name into voornaam, tussenaam, achternaam
-      const nameParts = (r.rider_name as string).split(' ').filter((p: string) => p.trim())
-      let voornaam: string | null = null
-      let tussenaam: string | null = null
-      let achternaam: string | null = null
-
-      if (nameParts.length === 1) {
-        achternaam = nameParts[0]
-      } else if (nameParts.length === 2) {
-        voornaam = nameParts[0]
-        achternaam = nameParts[1]
-      } else if (nameParts.length >= 3) {
-        voornaam = nameParts[0]
-        tussenaam = nameParts.slice(1, -1).join(' ')
-        achternaam = nameParts[nameParts.length - 1]
-      }
-
-      return {
-        position: r.position as number,
-        voornaam,
-        tussenaam,
-        achternaam,
-        rider_name: r.rider_name as string,
-        total_points: r.total_points as number,
-        races_entered: r.races_entered as number,
-      }
-    })
+    return (result[0]?.count ?? 0) > 0
   } catch {
-    return []
+    return false
   }
 }
 
 export default async function ResultsPageContent({ year }: Props) {
-  const [racesWithResults, standings] = await Promise.all([
-    getResultsByRace(year),
-    getStandings(year),
+  const [races, standingsExist] = await Promise.all([
+    getRaces(year),
+    hasStandings(year),
   ])
 
   return (
@@ -169,22 +90,23 @@ export default async function ResultsPageContent({ year }: Props) {
             <span className="gradient-text">{year}</span>
           </h1>
           <p className="font-body text-white/50 text-sm mt-4">
-            {racesWithResults.length > 0
-              ? `${racesWithResults.length} wedstrijd${racesWithResults.length !== 1 ? 'en' : ''} met uitslagen`
+            {races.length > 0
+              ? `${races.length} wedstrijd${races.length !== 1 ? 'en' : ''} met uitslagen`
               : 'Nog geen uitslagen beschikbaar'}
           </p>
         </div>
       </section>
 
-      {/* Season nav + interactive cards */}
+      {/* Season nav + overview */}
       <div className="max-w-4xl mx-auto px-4 pt-10 mb-6">
         <SeasonNav currentYear={year} />
       </div>
 
-      <ResultsPageClient
+      <ResultsPageOverview
         year={year}
-        racesWithResults={racesWithResults}
-        standings={standings}
+        races={races}
+        hasStandings={standingsExist}
+        racesCount={races.length}
       />
     </>
   )
