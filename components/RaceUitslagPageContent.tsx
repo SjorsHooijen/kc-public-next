@@ -26,19 +26,33 @@ interface Props {
 async function getRaceResults(raceId: number, year: number) {
   try {
     const sql = (await import('@/lib/db')).default
+
+    // First get race info from races table if it exists, or create from results data
     const raceInfo = await sql`
-      SELECT COALESCE(r.id, res.race_id) as id, COALESCE(r.name, '') as name, COALESCE(r.date::text, '') as date, COALESCE(r.location, '') as location
-      FROM results res
-      LEFT JOIN races r ON r.id = res.race_id
-      WHERE res.race_id = ${raceId} AND res.season = ${year}
+      SELECT
+        ${raceId}::int as id,
+        COALESCE(r.name, '') as name,
+        COALESCE(r.date::text, '') as date,
+        COALESCE(r.location, '') as location
+      FROM races r
+      WHERE r.id = ${raceId}
+      UNION ALL
+      SELECT
+        ${raceId}::int as id,
+        '' as name,
+        '' as date,
+        '' as location
+      WHERE NOT EXISTS (SELECT 1 FROM races WHERE id = ${raceId})
       LIMIT 1
     `
 
-    if (raceInfo.length === 0) {
-      return { race: null, results: [] }
+    const race = raceInfo[0] || {
+      id: raceId,
+      name: '',
+      date: '',
+      location: ''
     }
 
-    const race = raceInfo[0]
     const results = await sql`
       SELECT
         position, rider_name
@@ -46,6 +60,10 @@ async function getRaceResults(raceId: number, year: number) {
       WHERE race_id = ${raceId} AND season = ${year}
       ORDER BY position ASC
     `
+
+    if (results.length === 0) {
+      return { race: null, results: [] }
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parsedResults = results.map((r: any) => {

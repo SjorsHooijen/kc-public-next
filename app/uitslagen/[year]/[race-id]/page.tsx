@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 interface Props {
   params: {
     year: string
-    raceId: string
+    'race-id': string
   }
 }
 
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return races.map((r: any) => ({
       year: String(r.season),
-      raceId: String(r.race_id),
+      'race-id': String(r.race_id),
     }))
   } catch {
     return []
@@ -34,6 +34,6 @@ export async function generateStaticParams() {
 
 export default function RaceUitslagPage({ params }: Props) {
   const year = parseInt(params.year, 10)
-  const raceId = parseInt(params.raceId, 10)
+  const raceId = parseInt(params['race-id'], 10)
   return <RaceUitslagPageContent year={year} raceId={raceId} />
 }
