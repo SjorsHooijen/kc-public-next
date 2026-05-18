@@ -212,49 +212,40 @@ export default async function RaceUitslagPageContent({ year, raceId }: Props) {
                 <table className="w-full text-sm border-separate border-spacing-0">
                   <thead>
                     <tr className="bg-dark text-white">
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-center w-12 rounded-tl-xl">Uitslag</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-center w-16">Rugnr.</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left">Voornaam</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left">Tussenaam</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left">Achternaam</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right text-primary">KC Punten</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right">Sprint 1</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right">Sprint 2</th>
-                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right rounded-tr-xl">Totaal</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-center w-12 rounded-tl-xl">Uitslag</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-left">Naam</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right text-primary">KC Punten</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right hidden sm:table-cell">Sprint 1</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right hidden md:table-cell">Sprint 2</th>
+                      <th className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right hidden lg:table-cell">Totaal</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {results.map((r, i) => (
-                      <tr key={r.position} className={`transition-colors hover:bg-primary/5 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}`}>
-                        <td className="px-4 py-3 text-center">
-                          <PositionBadge pos={r.position} />
-                        </td>
-                        <td className="px-4 py-3 font-body text-gray-500 text-center tabular-nums">
-                          {r.rugnr ?? '—'}
-                        </td>
-                        <td className={`px-4 py-3 font-body ${r.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                          {r.voornaam ?? '—'}
-                        </td>
-                        <td className={`px-4 py-3 font-body ${r.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                          {r.tussenaam ?? '—'}
-                        </td>
-                        <td className={`px-4 py-3 font-body ${r.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                          {r.achternaam ?? '—'}
-                        </td>
-                        <td className={`px-4 py-3 font-heading font-bold text-right tabular-nums ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
-                          {r.kc_punten ?? r.points ?? '—'}
-                        </td>
-                        <td className="px-4 py-3 font-body text-gray-500 text-right tabular-nums">
-                          {r.sprint1 ?? '—'}
-                        </td>
-                        <td className="px-4 py-3 font-body text-gray-500 text-right tabular-nums">
-                          {r.sprint2 ?? '—'}
-                        </td>
-                        <td className={`px-4 py-3 font-heading font-bold text-right tabular-nums ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
-                          {r.totaal ?? r.points ?? '—'}
-                        </td>
-                      </tr>
-                    ))}
+                    {results.map((r, i) => {
+                      const fullName = [r.voornaam, r.tussenaam, r.achternaam].filter(Boolean).join(' ') || r.rider_name || '—'
+                      return (
+                        <tr key={r.position} className={`transition-colors hover:bg-primary/5 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}`}>
+                          <td className="px-3 sm:px-4 py-3 text-center">
+                            <PositionBadge pos={r.position} />
+                          </td>
+                          <td className={`px-3 sm:px-4 py-3 font-body ${r.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
+                            {fullName}
+                          </td>
+                          <td className={`px-3 sm:px-4 py-3 font-heading font-bold text-right tabular-nums ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
+                            {r.kc_punten ?? r.points ?? '—'}
+                          </td>
+                          <td className="px-3 sm:px-4 py-3 font-body text-gray-500 text-right tabular-nums hidden sm:table-cell">
+                            {r.sprint1 ?? '—'}
+                          </td>
+                          <td className="px-3 sm:px-4 py-3 font-body text-gray-500 text-right tabular-nums hidden md:table-cell">
+                            {r.sprint2 ?? '—'}
+                          </td>
+                          <td className={`px-3 sm:px-4 py-3 font-heading font-bold text-right tabular-nums hidden lg:table-cell ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
+                            {r.totaal ?? r.points ?? '—'}
+                          </td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>

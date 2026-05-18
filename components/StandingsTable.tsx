@@ -124,7 +124,7 @@ export default function StandingsTable({ standings }: Props) {
             <tr className="bg-dark text-white">
               <th
                 onClick={() => toggleSort('position')}
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left w-16 cursor-pointer hover:bg-dark/80 transition-colors rounded-tl-xl"
+                className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-left w-16 cursor-pointer hover:bg-dark/80 transition-colors rounded-tl-xl"
               >
                 <div className="flex items-center gap-2">
                   Uitslag
@@ -133,45 +133,28 @@ export default function StandingsTable({ standings }: Props) {
               </th>
               <th
                 onClick={() => toggleSort('voornaam')}
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left cursor-pointer hover:bg-dark/80 transition-colors"
+                className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-left cursor-pointer hover:bg-dark/80 transition-colors"
               >
                 <div className="flex items-center gap-2">
-                  Voornaam
+                  Naam
                   <SortIcon isActive={sortKey === 'voornaam'} direction={sortKey === 'voornaam' ? sortDir : undefined} />
                 </div>
               </th>
               <th
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left"
-              >
-                <div className="flex items-center gap-2">
-                  Tussennaam
-                  <SortIcon isActive={false} />
-                </div>
-              </th>
-              <th
-                onClick={() => toggleSort('achternaam')}
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-left cursor-pointer hover:bg-dark/80 transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  Achternaam
-                  <SortIcon isActive={sortKey === 'achternaam'} direction={sortKey === 'achternaam' ? sortDir : undefined} />
-                </div>
-              </th>
-              <th
                 onClick={() => toggleSort('total_points')}
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right cursor-pointer hover:bg-dark/80 transition-colors text-primary"
+                className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right cursor-pointer hover:bg-dark/80 transition-colors text-primary"
               >
                 <div className="flex items-center justify-end gap-2">
-                  Totaal
+                  Punten
                   <SortIcon isActive={sortKey === 'total_points'} direction={sortKey === 'total_points' ? sortDir : undefined} />
                 </div>
               </th>
               <th
                 onClick={() => toggleSort('races_entered')}
-                className="font-heading font-bold text-xs uppercase tracking-widest px-4 py-3 text-right cursor-pointer hover:bg-dark/80 transition-colors rounded-tr-xl"
+                className="font-heading font-bold text-xs uppercase tracking-widest px-3 sm:px-4 py-3 text-right cursor-pointer hover:bg-dark/80 transition-colors rounded-tr-xl hidden sm:table-cell"
               >
                 <div className="flex items-center justify-end gap-2">
-                  Aantal weds
+                  Wedstrijden
                   <SortIcon isActive={sortKey === 'races_entered'} direction={sortKey === 'races_entered' ? sortDir : undefined} />
                 </div>
               </th>
@@ -180,29 +163,23 @@ export default function StandingsTable({ standings }: Props) {
           <tbody>
             {sorted.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-gray-400 font-body">
+                <td colSpan={4} className="px-3 sm:px-4 py-8 text-center text-gray-400 font-body">
                   {standings.length === 0 ? 'Geen klassement beschikbaar.' : 'Geen resultaten gevonden.'}
                 </td>
               </tr>
             ) : (
               sorted.map((s) => (
                 <tr key={`${s.position}-${s.rider_name}`} className={`transition-colors hover:bg-primary/5 ${s.position % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}`}>
-                  <td className="px-4 py-3">
+                  <td className="px-3 sm:px-4 py-3">
                     <PositionBadge pos={s.position} />
                   </td>
-                  <td className={`px-4 py-3 font-body ${s.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                    {s.voornaam ?? '—'}
+                  <td className={`px-3 sm:px-4 py-3 font-body ${s.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
+                    {getDisplayName(s)}
                   </td>
-                  <td className={`px-4 py-3 font-body ${s.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                    {s.tussenaam ?? '—'}
-                  </td>
-                  <td className={`px-4 py-3 font-body ${s.position <= 3 ? 'font-semibold text-dark' : 'text-gray-700'}`}>
-                    {s.achternaam ?? '—'}
-                  </td>
-                  <td className={`px-4 py-3 font-heading font-bold text-right tabular-nums ${s.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
+                  <td className={`px-3 sm:px-4 py-3 font-heading font-bold text-right tabular-nums ${s.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
                     {s.total_points}
                   </td>
-                  <td className="px-4 py-3 font-body text-gray-400 text-right tabular-nums">
+                  <td className="px-3 sm:px-4 py-3 font-body text-gray-400 text-right tabular-nums hidden sm:table-cell">
                     {s.races_entered}
                   </td>
                 </tr>
