@@ -11,11 +11,10 @@ interface RaceResult {
   achternaam: string | null
   rider_name: string | null
   finish_time: string | null
-  kc_punten: number | null
+  points: number | null
   sprint1: number | null
   sprint2: number | null
-  totaal: number | null
-  points: number | null
+  total_points: number | null
 }
 
 interface Props {
@@ -55,7 +54,7 @@ async function getRaceResults(raceId: number, year: number) {
 
     const results = await sql`
       SELECT
-        position, rider_name
+        position, rider_name, points, sprint1, sprint2, total_points
       FROM results
       WHERE race_id = ${raceId} AND season = ${year}
       ORDER BY position ASC
@@ -91,11 +90,10 @@ async function getRaceResults(raceId: number, year: number) {
         achternaam: achternaam,
         rider_name: (r.rider_name as string | null) ?? null,
         finish_time: null,
-        kc_punten: null,
-        sprint1: null,
-        sprint2: null,
-        totaal: null,
-        points: null,
+        points: (r.points as number | null) ?? null,
+        sprint1: (r.sprint1 as number | null) ?? null,
+        sprint2: (r.sprint2 as number | null) ?? null,
+        total_points: (r.total_points as number | null) ?? null,
       }
     })
 
@@ -232,7 +230,7 @@ export default async function RaceUitslagPageContent({ year, raceId }: Props) {
                             {fullName}
                           </td>
                           <td className={`px-3 sm:px-4 py-3 font-heading font-bold text-right tabular-nums ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
-                            {r.kc_punten ?? r.points ?? '—'}
+                            {r.points ?? '—'}
                           </td>
                           <td className="px-3 sm:px-4 py-3 font-body text-gray-500 text-right tabular-nums hidden sm:table-cell">
                             {r.sprint1 ?? '—'}
@@ -241,7 +239,7 @@ export default async function RaceUitslagPageContent({ year, raceId }: Props) {
                             {r.sprint2 ?? '—'}
                           </td>
                           <td className={`px-3 sm:px-4 py-3 font-heading font-bold text-right tabular-nums hidden lg:table-cell ${r.position <= 3 ? 'text-primary' : 'text-gray-600'}`}>
-                            {r.totaal ?? r.points ?? '—'}
+                            {r.total_points ?? '—'}
                           </td>
                         </tr>
                       )
