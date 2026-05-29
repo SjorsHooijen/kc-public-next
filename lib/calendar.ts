@@ -80,7 +80,7 @@ export const ALL_RACES: CalendarRace[] = [
     name: 'Ronde van Luyksgestel', shortName: 'Luyksgestel', location: 'Luyksgestel',
     isKC: true, isFinale: false,
     imageUrl: IMAGES.races.luyksgestel,
-    startTime: '15:00', distanceKm: 72,
+    distanceKm: 72,
     description: 'Luyksgestel, het meest zuidwestelijke dorp van Nederland, herbergt een van de meest pittoreske KempenCup-wedstrijden. Het parcours kruist de grens met België en slingert door de heide- en bosgebieden van de Kempen.',
   },
   {
@@ -89,7 +89,7 @@ export const ALL_RACES: CalendarRace[] = [
     name: 'Ronde van Bergeijk', shortName: 'Bergeijk', location: 'Bergeijk',
     isKC: true, isFinale: false,
     imageUrl: IMAGES.races.bergeijk,
-    startTime: '15:00', distanceKm: 90,
+    startTime: '16:30', distanceKm: 90,
     description: 'Bergeijk, de gemeente met de meeste KempenCup-wedstrijden op haar grondgebied, toont zich hier van haar sportieve kant. Een koers door de rijke natuur van de Kempen, met smalle dorpswegen en een vurige finish voor de kerk.',
   },
   {
@@ -107,7 +107,7 @@ export const ALL_RACES: CalendarRace[] = [
     name: 'Ronde van Steensel', shortName: 'Steensel', location: 'Steensel',
     isKC: true, isFinale: false,
     imageUrl: IMAGES.races.steensel,
-    startTime: '15:00', distanceKm: 70,
+    startTime: '17:00', distanceKm: 70,
     description: 'Steensel markeert het begin van het slot van de KempenCup. De wedstrijd voert door rustige polderwegen en slingert langs de beekdalen van de Kempen. Het klassement begint zijn definitieve vorm te krijgen.',
   },
   {
@@ -116,7 +116,7 @@ export const ALL_RACES: CalendarRace[] = [
     name: 'Ronde van Weebosch', shortName: 'Weebosch', location: 'Weebosch',
     isKC: true, isFinale: false,
     imageUrl: IMAGES.races.weebosch,
-    startTime: '14:00', distanceKm: 75,
+    startTime: '17:15', distanceKm: 75,
     description: 'De voorlaatste KempenCup-manche in Weebosch is een ware krachtmeting. Op dit punt in het seizoen staat er veel op het spel voor de klassementsrenners. Het parcours loopt door de uitgestrekte bossen en velden rondom dit afgelegen dorp.',
   },
   {
@@ -125,7 +125,7 @@ export const ALL_RACES: CalendarRace[] = [
     name: "Ronde van 't Loo",  shortName: "'t Loo",  location: "'t Loo, Bergeijk",
     isKC: true, isFinale: true,
     imageUrl: IMAGES.races.bergeijk,
-    startTime: '14:00', distanceKm: 80,
+    startTime: '15:30', distanceKm: 80,
     description: "De Grote Finale van de KempenCup 2026 in 't Loo is het hoogtepunt van het wielerjaar in de Kempen. In dit pittoreske gehucht van Bergeijk wordt de definitieve KempenCup-winnaar gekroond. Publiek, spanning en een onvergetelijke sfeer maken dit de meest bijzondere dag van het seizoen.",
   },
 ]
