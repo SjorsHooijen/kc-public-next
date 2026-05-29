@@ -2,96 +2,29 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Reglement',
-  description: 'Het officiële reglement van de KempenCup wielerklassering.',
+  description: 'Het officiële reglement van het Kempen Cup Klassement.',
 }
 
+const documents = [
+  {
+    title: 'Reglement 2026',
+    description: 'Reglement Kempen Cup Klassement (V12)',
+    href: '/documents/Reglement-Kempen-Cup-Klassement-2026.pdf',
+  },
+  {
+    title: 'Toelatingsformulier 2026',
+    description: 'Toelatingsformulier Kempen Cup Klassement (V12)',
+    href: '/documents/Toelatingsformulier-Kempen-Cup-Klassement-2026.pdf',
+  },
+]
+
 const sections = [
-  {
-    id: 'algemeen',
-    title: 'Artikel 1 – Algemeen',
-    content: `De KempenCup is een wielerklassering voor amateurs in de regio de Kempen. De klassering bestaat uit een reeks wielerwedstrijden die gedurende het seizoen (april t/m september) worden verreden. Het doel van de KempenCup is het bevorderen van de wielersport in de regio en het bieden van een toegankelijke competitie voor actieve wielrenners.
-
-De organisatie van de KempenCup berust bij de KempenCup stichting, in samenwerking met de afzonderlijke lokale organiserende verenigingen per wedstrijd. De stichting stelt het reglement vast en is eindverantwoordelijk voor de klassering.`,
-  },
-  {
-    id: 'deelname',
-    title: 'Artikel 2 – Deelname',
-    content: `Deelname aan de KempenCup is uitsluitend voorbehouden aan houders van een geldige KNWU-licentie (FUN-klasse of hoger). Bij inschrijving dient de deelnemer in het bezit te zijn van een geldig legitimatiebewijs en een geldige KNWU-licentie.
-
-Deelnemers dienen minimaal 18 jaar oud te zijn op het moment van deelname, tenzij de plaatselijke organisatie anders bepaalt. De deelnemer is verplicht deel te nemen op een verkeersrechtelijk goedgekeurd rijwiel dat voldoet aan de KNWU-technische voorschriften.
-
-Aanmelding geschiedt via het online inschrijfsysteem op de website van de KempenCup, of ter plaatse bij de wedstrijdorganisatie, tot uiterlijk 30 minuten voor de start. Het inschrijfgeld bedraagt €5,- per wedstrijd en dient contant of via PIN te worden voldaan.`,
-  },
-  {
-    id: 'klassering',
-    title: 'Artikel 3 – Klassering en Puntentelling',
-    content: `De KempenCup wordt beslist op basis van een puntensysteem. Per wedstrijd worden punten toegekend aan de best geklasseerde deelnemers als volgt:
-
-1e plaats: 25 punten
-2e plaats: 20 punten
-3e plaats: 16 punten
-4e plaats: 13 punten
-5e plaats: 11 punten
-6e – 10e plaats: 10, 9, 8, 7, 6 punten
-11e – 20e plaats: 5, 4, 3, 2, 1 punten
-
-Alle overige finishers ontvangen 0 punten voor de klassering, maar worden wel geregistreerd als deelnemer.
-
-Voor de eindklassering telt het beste resultaat van elke wedstrijd die een deelnemer heeft gereden. Er wordt geen wedstrijd afgetrokken. Bij gelijke puntenstand beslist het hoogste aantal behaalde overwinningen; daarna de meeste tweede plaatsen, enzovoort.`,
-  },
-  {
-    id: 'finale',
-    title: 'Artikel 4 – Finale',
-    content: `De laatste wedstrijd van het seizoen heeft de status "Finale". Voor de Finale worden dubbele punten uitgedeeld. Deelname aan de Finale is vrij voor alle KNWU-licentiehouders; het is niet verplicht om in de voorafgaande wedstrijden te hebben deelgenomen.
-
-De KempenCup winnaar wordt bekendgemaakt na de afloop van de Finale. De prijsuitreiking vindt dezelfde dag plaats.`,
-  },
-  {
-    id: 'gedrag',
-    title: 'Artikel 5 – Gedragsregels',
-    content: `Van deelnemers wordt sportief en respectvol gedrag verwacht jegens medewerkers, officials en andere deelnemers. Agressief rijgedrag, het bewust hinderen van andere rijders en het negeren van verkeersregels leiden tot directe diskwalificatie.
-
-Het gebruik van doping is ten strengste verboden. Op de wedstrijden kan willekeurig dopingcontrole plaatsvinden conform de KNWU-regels. Bij een positieve dopingtest wordt de deelnemer gediskwalificeerd en uitgesloten van verdere deelname aan de KempenCup in het lopende seizoen.
-
-Elke rijder dient een helm te dragen die voldoet aan de geldende KNWU-normen. Deelnemen zonder helm leidt tot uitsluiting van de start.`,
-  },
-  {
-    id: 'veiligheid',
-    title: 'Artikel 6 – Veiligheid en Aansprakelijkheid',
-    content: `Deelname geschiedt op eigen risico. De KempenCup stichting, de plaatselijke organisatie en de betrokken vrijwilligers aanvaarden geen aansprakelijkheid voor persoonlijk letsel of materiële schade, tenzij er sprake is van opzet of grove nalatigheid van de organisatie.
-
-Deelnemers zijn verplicht een geldige WA-verzekering te hebben. De KNWU-licentie voorziet in een basisverzekering; deelnemers dienen zelf na te gaan of deze dekking toereikend is.
-
-De koersdirecteur heeft te allen tijde het recht een wedstrijd te neutraliseren of te staken bij onveilige omstandigheden. In dat geval worden de uitstaande punten niet toegekend, tenzij meer dan 50% van de geplande afstand is afgelegd.`,
-  },
-  {
-    id: 'protest',
-    title: 'Artikel 7 – Protest en Bezwaar',
-    content: `Een protest kan worden ingediend door de deelnemer zelf, of namens hem/haar door een aangewezen begeleider, bij de wedstrijdleider. Protesten dienen schriftelijk te worden ingediend binnen 15 minuten na de officiële uitslag, vergezeld van een borgsom van €25,-. Bij een gegrond protest wordt de borgsom terugbetaald.
-
-De wedstrijdcommissaris beslist zo spoedig mogelijk, doch uiterlijk binnen één uur na indiening. Zijn beslissing is bindend voor het betreffende evenement. Beroep is mogelijk bij het KempenCup bestuur binnen 7 dagen na de wedstrijd.`,
-  },
-  {
-    id: 'prijzen',
-    title: 'Artikel 8 – Prijzen',
-    content: `Per wedstrijd worden prijzen uitgereikt aan de top 3 finishers. De exacte aard van de prijzen wordt bepaald door de plaatselijke organisatie.
-
-Aan het einde van het seizoen worden de volgende klassementsprijzen uitgereikt:
-- KempenCup winnaar (1e in het eindklassement): wisseltrofee + individuele prijs
-- 2e in het eindklassement: individuele prijs
-- 3e in het eindklassement: individuele prijs
-
-De prijsuitreiking voor het eindklassement vindt plaats tijdens of direct na de Finale wedstrijd.`,
-  },
-  {
-    id: 'wijzigingen',
-    title: 'Artikel 9 – Wijzigingen en Slotbepalingen',
-    content: `Het KempenCup bestuur behoudt zich het recht voor dit reglement tussentijds te wijzigen. Wijzigingen worden ten minste 14 dagen voor hun inwerkingtreding bekendgemaakt via de website van de KempenCup.
-
-In gevallen waarin dit reglement niet voorziet, beslist het KempenCup bestuur. Op alle geschillen is Nederlands recht van toepassing.
-
-Dit reglement is vastgesteld door het KempenCup bestuur en van kracht per seizoen 2025.`,
-  },
+  { id: 'doelstelling', title: 'Doelstelling' },
+  { id: 'deelname', title: 'Deelname' },
+  { id: 'prijzen', title: 'Prijzen' },
+  { id: 'reglement', title: 'Reglement' },
+  { id: 'inschrijving', title: 'Inschrijving en kosten' },
+  { id: 'documenten', title: 'Documenten' },
 ]
 
 export default function ReglementPage() {
@@ -119,10 +52,10 @@ export default function ReglementPage() {
           <h1 className="font-heading font-bold uppercase tracking-tighter leading-none mb-4" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}>
             <span className="gradient-text">REGLEMENT</span>
             <br />
-            <span className="text-white">KEMPENCUP</span>
+            <span className="text-white">KEMPEN CUP</span>
           </h1>
           <p className="font-body text-white/60 text-lg">
-            Versie 2025 — vastgesteld door het KempenCup bestuur
+            Reglement Kempen Cup Klassement — versie V12
           </p>
         </div>
       </section>
@@ -154,30 +87,191 @@ export default function ReglementPage() {
           {/* Article content */}
           <div className="flex-1 min-w-0">
             <div className="space-y-12">
-              {sections.map((section) => (
-                <section key={section.id} id={section.id} className="scroll-mt-24">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="h-px w-6 bg-primary flex-shrink-0" />
-                    <span className="text-primary font-heading font-bold text-xs uppercase tracking-[0.2em]">
-                      Reglement
-                    </span>
-                  </div>
-                  <h2 className="font-heading font-bold text-3xl uppercase tracking-tight text-dark mb-4 pb-2 border-b-2 border-primary">
-                    {section.title}
-                  </h2>
-                  <div className="font-body text-gray-700 leading-relaxed whitespace-pre-line text-sm md:text-base">
-                    {section.content}
-                  </div>
-                </section>
-              ))}
+              {/* Doelstelling */}
+              <section id="doelstelling" className="scroll-mt-24">
+                <SectionHeading title="Doelstelling" />
+                <div className="font-body text-gray-700 leading-relaxed text-sm md:text-base space-y-4">
+                  <p>
+                    Het Kempen Cup Klassement is een overkoepelend klassement van meerdere lokale
+                    wielerorganisaties. Deelnemende organisaties staan vermeld op onze site{' '}
+                    <a href="https://www.kempencup.nl" className="text-primary hover:underline">www.kempencup.nl</a>.
+                    Dit klassement wordt verreden in de FUN-klasse onder licentie van de KNWU en biedt de
+                    mogelijkheid aan lokale recreatieve renners om zich op een competitieve veilige manier te
+                    meten met renners in de regio. Het doel is om de instroom van onderaf laagdrempelig te
+                    houden en het wielrennen te stimuleren. Om de doelstellingen ook op lange termijn te
+                    waarborgen zijn onderstaande voorwaarde van deelname opgenomen in het reglement. Daardoor
+                    blijft het Kempen Cup Klassement van Funklasse niveau waardoor nieuwe recreatieve renners
+                    niet worden afgeschrikt om deel te nemen.
+                  </p>
+                </div>
+              </section>
+
+              {/* Deelname */}
+              <section id="deelname" className="scroll-mt-24">
+                <SectionHeading title="Deelname" />
+                <div className="font-body text-gray-700 leading-relaxed text-sm md:text-base space-y-4">
+                  <p>Deelname is mogelijk als aan onderstaande voorwaarden wordt voldaan:</p>
+                  <ol className="list-decimal pl-6 space-y-2">
+                    <li>U bent 15 jaar of ouder.</li>
+                    <li>U heeft de laatste 3 jaar geen wedstrijd licentie gehad.</li>
+                    <li>
+                      Deelname enkel voor renners woonachtig binnen een straal van 25 km van onze wedstrijden
+                      ofwel u bent gelieerd aan een bedrijf binnen deze straal of U bent op vakantie in de
+                      Kempen.
+                    </li>
+                    <li>
+                      U hebt dit jaar NIET deelgenomen aan wedstrijden van de KNWU of wedstrijden van
+                      nevenbonden in Nederland of België van een hoger niveau.
+                    </li>
+                  </ol>
+                  <p>
+                    Indien een renner niet voldoet aan de regels van deelname maar toch vindt dat hij behoord
+                    tot de doelgroep van het Kempen Cup Klassement kan hij door middel van een motivatie
+                    dispensatie aanvragen om toch deel te mogen nemen. De motivatie zal door een commissie
+                    worden getoetst.
+                  </p>
+                  <p>
+                    Bij twijfel kunt u tot 10 dagen voor de eerste wedstrijd van het klassement contact opnemen
+                    met de organisatie en uw motivatie toelichten. U krijgt dan uitsluitsel voor aanvang van de
+                    eerste wedstrijd. Gebruik hiervoor het contactformulier op onze site{' '}
+                    <a href="https://www.kempencup.nl" className="text-primary hover:underline">www.kempencup.nl</a>
+                  </p>
+                </div>
+              </section>
+
+              {/* Prijzen */}
+              <section id="prijzen" className="scroll-mt-24">
+                <SectionHeading title="Prijzen" />
+                <div className="font-body text-gray-700 leading-relaxed text-sm md:text-base">
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>De top 3 van het eindklassement krijgt als extra prijs een KNWU amateur licentie aangeboden</li>
+                    <li>Voor het eindklassement krijgt de top 10 een prijs uitgekeerd</li>
+                    <li>De prijzen van de lokale wedstrijden conform prijzenschema R van de KNWU</li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Reglement */}
+              <section id="reglement" className="scroll-mt-24">
+                <SectionHeading title="Reglement" />
+                <div className="font-body text-gray-700 leading-relaxed text-sm md:text-base">
+                  <ol className="list-decimal pl-6 space-y-3">
+                    <li>Het Kempen Cup Klassement wordt verreden over meerdere op zichzelf staande wedstrijden.</li>
+                    <li>
+                      Aan het Kempen Cup Klassement is maar één klassement verbonden namelijk: Algemeen
+                      Individueel Klassement.
+                    </li>
+                    <li>
+                      De leider in het klassement is herkenbaar aan de Leiderstrui van het Kempen Cup
+                      Klassement en is deze verplicht te dragen.
+                    </li>
+                    <li>
+                      Bij alle wedstrijden worden aan alle geklasseerde renners punten toegekend volgens de
+                      schaal 1-20. De nummer 1 krijgt 20 punten, de nummer 2 krijgt 19 punten…..de nummer 20,
+                      21 enz. krijgen 1 punt mits geklasseerd.
+                    </li>
+                    <li>Bij de laatste wedstrijd gelden dubbele punten.</li>
+                    <li>
+                      Tevens worden per wedstrijd 2 sprints gehouden: De eerste 3 geklasseerde renners krijgen
+                      3, 2, resp. 1 punt.
+                    </li>
+                    <li>
+                      Het klassement wordt vastgesteld door per renner de som der behaalde punten van alle
+                      wedstrijden op te tellen. De tussensprints worden hierbij opgeteld
+                      <br />
+                      In geval van gelijkheid geldt:
+                      <ul className="list-disc pl-6 mt-1">
+                        <li>Hoogste plaatsingscijfer en aantal ervan</li>
+                      </ul>
+                      Bij nog geen beslissing:
+                      <ul className="list-disc pl-6 mt-1">
+                        <li>Hoogste plaatsingscijfer laatste wedstrijd van de agenda</li>
+                      </ul>
+                    </li>
+                    <li>
+                      De prijsuitreiking van het klassement zal plaatsvinden op de laatste wedstrijd van de
+                      agenda (prijzen worden niet opgestuurd)
+                    </li>
+                    <li>Maximaal 80 deelnemers per wedstrijd</li>
+                    <li>In alle gevallen waarin dit reglement niet voorziet, beslist de organisatie</li>
+                    <li>Wedstrijd duur is 40 km.</li>
+                  </ol>
+                </div>
+              </section>
+
+              {/* Inschrijving en kosten */}
+              <section id="inschrijving" className="scroll-mt-24">
+                <SectionHeading title="Inschrijving en kosten" />
+                <div className="font-body text-gray-700 leading-relaxed text-sm md:text-base space-y-4">
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Deelnemers moeten in bezit zijn van een KNWU ID nummer.</li>
+                    <li>
+                      Inschrijfkosten: € 10,-
+                      <br />
+                      Dit zijn de kosten van een dag-startlicentie.
+                    </li>
+                    <li>
+                      Inschrijfkosten gratis voor deelnemers in bezit van een KNWU wedstrijdlicentie 15+ (plus)
+                      en 15+ (premium).
+                    </li>
+                  </ul>
+                  <p>
+                    Alleen bij vertoning van uw KNWU wedstrijdlicentie is deelname aan het Kempen Cup
+                    Klassement GRATIS!
+                  </p>
+                  <p>Het rugnummer hoeft NIET te worden teruggebracht.</p>
+                </div>
+              </section>
+
+              {/* Documenten / downloads */}
+              <section id="documenten" className="scroll-mt-24">
+                <SectionHeading title="Documenten" />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {documents.map((doc) => (
+                    <div
+                      key={doc.href}
+                      className="border-2 border-dark/10 hover:border-primary transition-colors p-5 rounded-sm flex flex-col"
+                    >
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className="flex-shrink-0 w-10 h-10 bg-primary/10 flex items-center justify-center rounded-sm">
+                          <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-heading font-bold text-dark text-lg leading-tight">{doc.title}</h3>
+                          <p className="font-body text-gray-500 text-sm">{doc.description}</p>
+                        </div>
+                      </div>
+                      <div className="mt-auto flex gap-2">
+                        <a
+                          href={doc.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 text-center font-heading font-bold text-xs uppercase tracking-[0.15em] bg-dark text-white px-4 py-2.5 rounded-sm hover:bg-primary transition-colors"
+                        >
+                          Bekijken
+                        </a>
+                        <a
+                          href={doc.href}
+                          download
+                          className="flex-1 text-center font-heading font-bold text-xs uppercase tracking-[0.15em] border-2 border-dark text-dark px-4 py-2.5 rounded-sm hover:bg-dark hover:text-white transition-colors"
+                        >
+                          Downloaden
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
             </div>
 
             {/* Footer note */}
             <div className="mt-14 p-5 bg-primary/10 border-l-4 border-primary">
               <p className="font-body text-sm text-gray-700">
-                Voor vragen over het reglement kunt u contact opnemen via{' '}
-                <a href="mailto:info@kempencup.nl" className="text-primary hover:underline font-medium">
-                  info@kempencup.nl
+                Voor vragen over het reglement kunt u contact opnemen via het contactformulier op onze site{' '}
+                <a href="https://www.kempencup.nl" className="text-primary hover:underline font-medium">
+                  www.kempencup.nl
                 </a>
                 .
               </p>
@@ -185,6 +279,22 @@ export default function ReglementPage() {
           </div>
         </div>
       </section>
+    </>
+  )
+}
+
+function SectionHeading({ title }: { title: React.ReactNode }) {
+  return (
+    <>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="h-px w-6 bg-primary flex-shrink-0" />
+        <span className="text-primary font-heading font-bold text-xs uppercase tracking-[0.2em]">
+          Reglement
+        </span>
+      </div>
+      <h2 className="font-heading font-bold text-3xl uppercase tracking-tight text-dark mb-4 pb-2 border-b-2 border-primary">
+        {title}
+      </h2>
     </>
   )
 }
