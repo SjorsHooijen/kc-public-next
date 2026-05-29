@@ -203,7 +203,7 @@ export const RACE_DETAILS: Record<string, RaceDetail> = {
     website: 'https://www.wielerrondehetloo.nl',
     websiteLabel: 'wielerrondehetloo.nl',
     winners: [],
-    photos: [],
+    photos: photos('loo', 2),
     isFirstEdition: true,
     finaleNote:
       'De KempenCup 2026 wordt afgesloten met de officiële prijsuitreiking na de race. De winnaar van het eindklassement wordt op het podium gehuldigd voor alle toeschouwers.',
