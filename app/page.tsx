@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_noStore as noStore } from 'next/cache'
 import Hero from '@/components/Hero'
 import StandingsTable from '@/components/StandingsTable'
 import NewsCard from '@/components/NewsCard'
@@ -19,6 +20,7 @@ function getUpcomingRaces() {
 }
 
 async function getStandings() {
+  noStore()
   try {
     const sql = (await import('@/lib/db')).default
     const rows = await sql`
@@ -62,6 +64,7 @@ async function getStandings() {
 }
 
 async function getLatestNews() {
+  noStore()
   try {
     const sql = (await import('@/lib/db')).default
     const rows = await sql`

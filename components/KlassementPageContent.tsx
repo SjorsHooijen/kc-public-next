@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache'
 import SeasonNav from '@/components/SeasonNav'
 import StandingsTable from '@/components/StandingsTable'
 
@@ -6,6 +7,7 @@ interface Props {
 }
 
 async function getStandings(year: number) {
+  noStore()
   try {
     const sql = (await import('@/lib/db')).default
     const rows = await sql`

@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ALL_RACES } from '@/lib/calendar'
@@ -23,6 +24,7 @@ interface Props {
 }
 
 async function getRaceResults(raceId: number, year: number) {
+  noStore()
   try {
     const sql = (await import('@/lib/db')).default
 
@@ -112,6 +114,7 @@ function formatFullDate(dateStr: string): string {
 
 function PositionBadge({ pos }: { pos: number }) {
   const base = 'w-8 h-8 rounded-full font-heading font-bold text-sm flex items-center justify-center flex-shrink-0 shadow-sm'
+  if (pos === 99) return <span className="px-2 h-6 inline-flex items-center justify-center rounded-md font-heading font-bold text-xs uppercase tracking-wide text-gray-400 bg-gray-100 flex-shrink-0">DNF</span>
   if (pos === 1) return <span className={`${base} bg-gradient-to-br from-yellow-300 to-yellow-500 text-dark`}>1</span>
   if (pos === 2) return <span className={`${base} bg-gradient-to-br from-gray-200 to-gray-400 text-dark`}>2</span>
   if (pos === 3) return <span className={`${base} bg-gradient-to-br from-amber-500 to-amber-700 text-white`}>3</span>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_noStore as noStore } from 'next/cache'
 import NewsCard from '@/components/NewsCard'
 
 export const metadata: Metadata = {
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
 }
 
 async function getAllNews() {
+  noStore()
   try {
     const sql = (await import('@/lib/db')).default
     const rows = await sql`

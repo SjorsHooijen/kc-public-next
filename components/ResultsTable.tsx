@@ -10,6 +10,13 @@ interface Props {
 }
 
 function PositionBadge({ position }: { position: number }) {
+  if (position === 99) {
+    return (
+      <span className="inline-flex items-center justify-center px-2 h-6 rounded-md bg-gray-100 text-gray-400 font-heading font-bold text-xs uppercase tracking-wide">
+        DNF
+      </span>
+    )
+  }
   if (position === 1) {
     return (
       <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-400 text-dark font-heading font-bold text-sm">
