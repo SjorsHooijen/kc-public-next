@@ -6,29 +6,14 @@ export const metadata: Metadata = {
   description: 'Uitslag van een wedstrijd in de KempenCup.',
 }
 
+// Always render on demand so newly added/updated race results show up
+// immediately (the data layer uses noStore()).
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: {
     year: string
     'race-id': string
-  }
-}
-
-export async function generateStaticParams() {
-  try {
-    const sql = (await import('@/lib/db')).default
-    const races = await sql`
-      SELECT DISTINCT season, res.race_id
-      FROM results res
-      LEFT JOIN races r ON r.id = res.race_id
-      ORDER BY season DESC, res.race_id ASC
-    `
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return races.map((r: any) => ({
-      year: String(r.season),
-      'race-id': String(r.race_id),
-    }))
-  } catch {
-    return []
   }
 }
 
